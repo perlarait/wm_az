@@ -1,4 +1,5 @@
 Attributions:
+  License - GNU v3
   Funding - Perlara, PBC
   Python scripting - Zach Parton
   R scripting - Hillary Tsang, Zach Parton
