@@ -1,4 +1,9 @@
-************************************************************************ Work flow (last: 31Aug18) ************************************************************************
+Attributions:
+  Funding - Perlara, PBC
+  Python scripting - Zach Parton
+  R scripting - Hillary Tsang, Zach Parton
+
+************************************* Work flow (last: 31Aug18) *************************************
 
 To note: This script has been written by and for PERLARA PBC to analyze plates coming off of the modularscience custom-built 384-well plate imager (meant for C. elegans). It provides a set of modules which (when more fully functionalized) can be ported to other high-throughput screening projects.
 
@@ -47,7 +52,7 @@ Run the "python3 cdd.py"
 REQUIRED BEFORE NEXT ANALYSIS : rename "final" folder in root dir to general experiment name with specific processing conditions
 
 
-************************************************************************ File Key (last: 3July18) ************************************************************************
+************************************* File Key (last: 3July18) *************************************
 
 all.csv : all wells with original z-negative scores (before auto exclusion)
 
@@ -77,7 +82,7 @@ test_raw.html : interactive scatter off raw area (before exclusion)
 TO NOTE:
 All files with _excl have a recalculated z-score (neg & pos) after exclusion
 
-************************************************************************ az_code-outline (last: 30Aug18) ************************************************************************
+************************************* az_code-outline (last: 30Aug18) *************************************
 
 General Overview (Steps):
   1) Aggregate data
