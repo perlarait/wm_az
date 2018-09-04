@@ -3,6 +3,7 @@ Attributions:
   Funding - Perlara, PBC
   Python scripting - Zach Parton
   R scripting - Hillary Tsang, Zach Parton
+  Director - Sangeetha Iyer
 
 ************************************* Work flow (last: 31Aug18) *************************************
 
