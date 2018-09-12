@@ -34,13 +34,11 @@ os.mkdir('../data')
 
 ## __Import data Recursively through folders__
 # repX = raw("which replicate?")
-aa = glob.glob('../final/data/*/*.csv')
+bb = glob.glob('../final/data/*/*.csv')
 
 ## __Clean up__
 ##	_linearize_
 ## _platenames_
-clnr.repsplit(aa)
-bb = glob.glob('../final/data/*/*.csv')
 clnr.pltnmij(bb)
 clnr.pltnmr(bb)
 ## injects rep names
