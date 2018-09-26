@@ -197,69 +197,68 @@ def pltalz(a):
     rez = r_pltalz(a0)
 
 ## plots all hits w mean lines
-def pltalmpl(a):
+def pltalmpl(a, b):
     a0 = pd.read_csv(a)
 
     robjects.r('''
-plot.meapl <- function(t) {
+plot.meapl <- function(t, u) {
   z <- t %>%
     group_by(rep, plt_nm) %>%
     filter(condt == "+ctrl") %>%
     summarise(average = mean(zneg))
   exp <- t %>%
     filter(condt == "exp") %>%
-    filter(zneg > 2)
+    filter(zneg > u)
   y <- ggplot(data = exp, aes(x = well, y = zneg)) +
     geom_point(data = exp, aes(color = plt_nm)) +
     geom_hline(data = z, aes(yintercept = average), linetype="dashed") +
     facet_grid(rep~plt_nm) +
     scale_y_continuous(labels = scales::comma) +
-    labs(title = "hits",
+    labs(title = "hits w/avg z-score of +ctrls",
          y = "zscore rel. to -ctrl",
          x = "well") +
     theme(axis.text.x = element_blank(),
           axis.ticks.x = element_blank())
     bb <- ggplotly(y + theme(legend.position="none"))
-    htmlwidgets::saveWidget(bb, '../final/all_hits_z.html')
+    htmlwidgets::saveWidget(bb, '../final/all_hits_z-pos-mean.html')
         }
             ''')
 
     r_pltalmpl = robjects.globalenv['plot.meapl']
     # rez =
-    r_pltalmpl(a0)
+    r_pltalmpl(a0, b)
 
 ## plots w mean lines
-def pltalmnl(a):
+def pltalmnl(a, b):
     a0 = pd.read_csv(a)
 
     robjects.r('''
-plot.meanl <- function(t) {
+plot.meanl <- function(t, u) {
   z <- t %>%
     group_by(rep, plt_nm) %>%
     filter(condt == "-ctrl") %>%
     summarise(average = mean(zneg))
   exp <- t %>%
     filter(condt == "exp") %>%
-    filter(zneg < -2)
+    filter(zneg < u)
   y <- ggplot(data = exp, aes(x = well, y = zneg)) +
     geom_point(data = exp, aes(color = plt_nm)) +
     geom_hline(data = z, aes(yintercept = average), linetype="dashed") +
     facet_grid(rep~plt_nm) +
     scale_y_continuous(labels = scales::comma) +
-    labs(title = "tox",
+    labs(title = "toxs w/avg z-score of +ctrls",
          y = "zscore rel. to -ctrl",
          x = "well") +
     theme(axis.text.x = element_blank(),
           axis.ticks.x = element_blank())
     bb <- ggplotly(y + theme(legend.position="none"))
-    htmlwidgets::saveWidget(bb, '../final/all_tox_z.html')
+    htmlwidgets::saveWidget(bb '../final/all_hits_z-neg-mean.html')
         }
             ''')
 
     r_pltalmnl = robjects.globalenv['plot.meanl']
     # rez =
-    r_pltalmnl(a0)
-
+    r_pltalmnl(a0, b)
 
 ## Plots ctrl zscores
 def pltcz(a):
@@ -275,8 +274,7 @@ def pltcz(a):
         x = "well",
         color = "rep",
         shape = "condt") +
-    theme(axis.title.x = element_blank(),
-        axis.ticks.x = element_blank(),
+    theme(axis.ticks.x = element_blank(),
         axis.text.x = element_blank(),
         panel.grid.major.x = element_blank())
     a = ggplotly(p)
@@ -359,3 +357,21 @@ def summr_rp(csv):
 
     pd_df = pandas2ri.ri2py_dataframe(raz)
     pd_df.to_csv((drnm + '/' + nm[0] + '_sum_condt.csv'), index=False)
+
+def summr_ov_cd(csv):
+    nm = os.path.basename(csv).split('.')
+    drnm = os.path.dirname(csv)
+    a = pd.read_csv(csv)
+    robjects.r('''
+    summr_rp <- function(z) {
+    foo <- z %>% group_by(condt) %>%
+    dplyr::summarise(mean_area = mean(area), median_area = median(area), sd_area = sd(area), mean_zneg = mean(zneg), sd_zneg = sd(zneg), mean_zpos = mean(zpos), sd_zpos = sd(zpos))
+    }
+    ''')
+
+    r_summr_rp = robjects.globalenv['summr_rp']
+    raz = r_summr_rp(a)
+    r.data('raz')
+
+    pd_df = pandas2ri.ri2py_dataframe(raz)
+    pd_df.to_csv((drnm + '/' + nm[0] + '_sum_ov_condt.csv'), index=False)

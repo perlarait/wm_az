@@ -158,3 +158,40 @@ def countr(a):
     mask = counts['rep_hits'] >= z
     sel = counts.loc[mask, :]
     sel.to_csv((drnm + '/' + nm[0] + '_final.csv'), index=False)
+
+def countr1(a):
+    a0 = pd.read_csv(a)
+    nm = os.path.basename(a).split('.')
+    drnm = os.path.dirname(a)
+    reps = []
+
+    for i in a0['rep'][:]:
+        if i not in reps:
+            reps.append(i)
+
+    z = len(reps) - 1
+
+    counts = a0.groupby('plt_nm')['well'].value_counts().reset_index(name='rep_hits')
+    mask = counts['rep_hits'] >= z
+    sel = counts.loc[mask, :]
+    sel.to_csv((drnm + '/' + nm[0] + '_final.csv'), index=False)
+
+def avgr_wscore(a, zlim):
+    a0 = pd.read_csv(a)
+    a1 = a0[a0['condt'] == 'exp']
+    z = a1.groupby(['well_num']).agg(lambda x: x.unique().mean())
+    zz = z.reset_index()
+    zz = zz.rename(columns={'well_num': 'Column'})
+
+#    fin = z.merge(i, on='well_num')
+
+
+    wlsc = a1.drop(a1[a1.zneg < zlim].index)
+    w = wlsc.groupby(['well_num']).well_num.agg('count')
+    ww = w.to_frame(name='well_score')
+    www = ww.reset_index()
+    www = www.rename(columns={'well_num': 'Column'})
+
+    final = zz.merge(www, on='Column', how='outer')
+    final = final[['Column', 'well_score', 'zneg', 'zpos', 'area']]
+    final.to_csv(('../final/final_Zo' + str(zlim) + '.csv'), index=False)

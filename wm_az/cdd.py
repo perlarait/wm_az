@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+from bin import si_req
 
 def cdd(fin, ht, tx):
      a0 = pd.read_csv(fin)

@@ -12,6 +12,7 @@ import csv
 import numpy as np
 import scipy as sp
 import shutil
+import datetime
 from pylab import figure, axes, pie, title, show, savefig
 # from bin import csvs
 from bin import mats2
@@ -20,9 +21,9 @@ from bin import grph
 from bin import rscrps
 
 ## enviromental variables
-zplim = 2
-znlim = -2
-zxlim = 3
+zhlim = 1.5 ## hit limit
+ztlim = -1.5 ## tox limit
+zxlim = 2 ## ctrl exclusion
 
 ## __verify structure__
 
@@ -72,8 +73,8 @@ rscrps.zscrn(dd)
 rscrps.zscrp(dd)
 
 ## __Hit&Tox__
-mats2.hits('../final/all_excl.csv', zplim)
-mats2.tox('../final/all_excl.csv', znlim)
+mats2.hits('../final/all_excl.csv', zhlim)
+mats2.tox('../final/all_excl.csv', ztlim)
 mats2.countr('../final/all_excl_all_hits.csv')
 mats2.countr('../final/all_excl_all_tox.csv')
 #mats2.autopl('../final/all_excl_all_hits.csv')
@@ -110,11 +111,15 @@ rscrps.pltalz(a)
 rscrps.pltalmpl(b)
 rscrps.pltalmnl(b)
 
+mats2.avgr_wscore(a)
+
 ## exp zscore w/perplate & rep mean o/ctrls
 
 ## __Finishing__
 a = 'hit limit = ' + str(zplim)
 b = 'tox limit = ' + str(znlim)
 c = 'excl limit = ' + str(zxlim)
-f = open('meta.txt', 'w')
-f.write(a + '\n' + b + '\n' + c)
+d = 'Analysis done at: ' + str(datetime.datetime.now())
+f = open('../final/meta.txt', 'w')
+f.write(a + '\n' + b + '\n' + c + '\n' + d)
+f.close()

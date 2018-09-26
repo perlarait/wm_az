@@ -7,7 +7,7 @@ General Changes:
     create meta data listing all run parameters (zplim, znlim, zxlim, etc)
     Change naming:
         +/- ctrls need to go to pos_/neg_ for excel compat
-        
+    Add zscores to final hit list
 
 Meta Data needs:    
     #(may not do)remove date to meta data - need to create metadata and keep it        
