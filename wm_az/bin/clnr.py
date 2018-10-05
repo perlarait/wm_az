@@ -77,6 +77,22 @@ def annt(a):
                  a1['condt'][i] = "exp"
             a1.to_csv(csv, index=False)
 
+## annotates ctrls and columns
+
+# def annt2(a):
+#    for csv in a:
+#        a1 = pd.read_csv(csv)
+#        a1['condt'] = a1.index
+#        for i in range(len(a1['well_num'])):
+#            if a1['well_num'][i] <= 2:
+#                 a1['condt'][i] = "+ctrl"
+#            elif a1['well_num'][i] >= 23:
+#                 a1['condt'][i] = "-ctrl"
+#            elif a1['well_num'][i] == 24:
+#            else:
+#                 a1['condt'][i] = "exp"
+#            a1.to_csv(csv, index=False)
+
 ## changes column names and does drops
 def clnrr(a):
     for csv in a:
