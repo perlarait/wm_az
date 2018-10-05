@@ -39,7 +39,10 @@ Run "python3 wm_az.py"
 
 Annotate all_hits_final.csv & all_tox_final.csv wth a column named "status" and the following distinctions:
 
-X, Y = predefined limit
+## enviromental variables
+zhlim = X ## hit limit
+ztlim = Y ## tox limit
+zxlim = Z ## ctrl exclusion
 
   HIT  - zneg score >X & visual confirmation of performance near positive controls
   wkht - zneg score >X & visual confirmation of performance better than negative controls
@@ -56,18 +59,24 @@ REQUIRED BEFORE NEXT ANALYSIS : rename "final" folder in root dir to general exp
 
 ************************************* File Key (last: 3July18) *************************************
 
+## enviromental variables
+zhlim = X ## hit limit
+ztlim = Y ## tox limit
+zxlim = Z ## ctrl exclusion
+
 all.csv : all wells with original z-negative scores (before auto exclusion)
 
-all_excl.csv : all wells with z-negative scores calc after auto exclusion of controls
+all_excl.csv : all wells with z-negative scores calc (after exclusion of controls using zxlim to define tails)
 
-all_excl_all_hits.csv : all hits (zneg >2) occuring more than 2ce across reps
-(manually created) all_excl_all_hits_pull.csv : all hits occuring more than 3ce across reps
+all_excl_all_hits.csv : all wells with a "zneg" > zhlim (hits)
+all_excl_all_hits_final.csv : all hits occuring across all reps
 
-all_excl_all_tox.csv : all tox (zneg < -2) occuring more than 2ce across reps
-(manually created) all_excl_all_hits_tox.csv : all tox occuring more than 3ce across reps
+all_excl_all_tox.csv : all wells with a "zneg" < ztlim (tox)
+all_excl_all_hits_final.csv : all tox occuring across all reps
 
-all_excl_repX_Z.csv : all hits (zneg >2 )/tox (zneg <-2) in replicate X
-all_Outliers: all ctrl wells with abs(zscore) > 2
+all_excl_repX_O.csv : all (O = tox or hits) in replicate X
+
+all_Outliers: all ctrl wells with abs(zscore) > zxlim
 
 all_*_sum_condt.cvs : summary file by condition across reps (* by excl or raw)
 all_*_sumfile.csv : all summary (ea plate) (* by excl or raw)
